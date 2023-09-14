@@ -24,7 +24,8 @@ namespace Shopping.DAL.Concrete.EFCore
                 if (context.Products.Count() == 0)
                 {
                     context.Products.AddRange(Products);
-
+                    context.AddRange(ProductCategory);
+                    
                 }
 
                 context.SaveChanges();
@@ -46,5 +47,16 @@ namespace Shopping.DAL.Concrete.EFCore
          new Product(){ Name=" Altın Bilezik", Price=7500, Images={new Image(){ImageUrl="8.png" },new Image(){ImageUrl="bilezik1.jpeg" }},Description="22 ayar bilezikler sizlerle"},
 
     };
+
+        private static ProductCategory[] ProductCategory =
+        {
+
+           
+
+            new ProductCategory(){Product=Products[1],Category=Categories[2]}
+          
+
+
+        };
     }
 }

@@ -14,6 +14,8 @@ namespace Shopping.BLL.Abstract
         void Create(Product entity);
         void Update(Product entity);
         void Delete(Product entity);
-       
+        Product GetProductDetails(int id);
+        List<Product> GetProductByCategory(string category);
+
     }
 }

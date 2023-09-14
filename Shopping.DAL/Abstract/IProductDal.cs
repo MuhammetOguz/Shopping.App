@@ -10,6 +10,7 @@ namespace Shopping.DAL.Abstract
 {
     public interface IProductDal:IRepository<Product>
     {
-        
+        Product GetProductDetails(int id);
+        List<Product> GetProductByCategory(string category);
     }
 }

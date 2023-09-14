@@ -11,8 +11,8 @@ using Shopping.DAL.Concrete.EFCore;
 namespace Shopping.DAL.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20230911142735_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20230913121320_yeni1")]
+    partial class yeni1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

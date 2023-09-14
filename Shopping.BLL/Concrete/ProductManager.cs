@@ -40,6 +40,16 @@ namespace Shopping.BLL.Concrete
             return _productDal.GetByID(id);
         }
 
+        public List<Product> GetProductByCategory(string category)
+        {
+           return _productDal.GetProductByCategory(category);
+        }
+
+        public Product GetProductDetails(int id)
+        {
+            return _productDal.GetProductDetails(id);
+        }
+
         public void Update(Product entity)
         {
            _productDal.Update(entity);

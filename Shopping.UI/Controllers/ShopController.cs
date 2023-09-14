@@ -18,9 +18,10 @@ namespace Shopping.UI.Controllers
             return View();
         }
 
-        public IActionResult List()
+        [Route("products/{category?}")]
+        public IActionResult List(string category)
         {
-            return View(new ProductListModel() { Products = _productService.GetAll() });
+            return View(new ProductListModel() { Products = _productService.GetProductByCategory(category) });
         }
 
         public IActionResult Details(int? id)
@@ -30,14 +31,14 @@ namespace Shopping.UI.Controllers
                 return NotFound();
             }
 
-            var product = _productService.GetById((int)id);
+            var product = _productService.GetProductDetails((int)id);
 
             if(product == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(new ProductDetailsModel() { Product=product,Categories=product.ProductCategories.Select(i=>i.Category).ToList()});
         }
     }
 }

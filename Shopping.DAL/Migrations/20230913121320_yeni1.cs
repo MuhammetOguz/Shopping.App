@@ -4,7 +4,7 @@
 
 namespace Shopping.DAL.Migrations
 {
-    public partial class CreateDatabase : Migration
+    public partial class yeni1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
