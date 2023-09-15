@@ -1,4 +1,5 @@
-﻿using Shopping.BLL.Abstract;
+﻿using Microsoft.EntityFrameworkCore;
+using Shopping.BLL.Abstract;
 using Shopping.DAL.Abstract;
 using Shopping.DAL.Concrete.EFCore;
 using Shopping.ENTITY;
@@ -40,9 +41,21 @@ namespace Shopping.BLL.Concrete
             return _productDal.GetByID(id);
         }
 
-        public List<Product> GetProductByCategory(string category)
+        public int GetCountByCategory(string category)
         {
-           return _productDal.GetProductByCategory(category);
+            using (var context = new ShopContext())
+            {
+                var products = context.Products.AsQueryable(); if (!string.IsNullOrEmpty(category))
+                {
+                    products = products.Include(i => i.ProductCategories).ThenInclude(i => i.Category).Where(i => i.ProductCategories.Any(a => a.Category.Name.ToLower() == category.ToLower()));
+                }
+                return products.Count();
+            }
+        }
+
+        public List<Product> GetProductByCategory(string category,int page,int pageSize)
+        {
+           return _productDal.GetProductByCategory(category,page,pageSize);
         }
 
         public Product GetProductDetails(int id)

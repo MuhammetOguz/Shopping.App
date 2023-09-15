@@ -7,11 +7,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        <ul class="list-group">
-            <li class="list-group-item">Elektronik</li>
-            <li class="list-group-item">Moda</li>
-            <li class="list-group-item">Takı</li>
-        </ul>
+        @await Component.InvokeAsync("CategoryList")
     </div>
     <div class="col-md-9">
        
@@ -22,6 +18,7 @@
                 <partial name="_product" for="@item" />
             }
         </div>
+        <div page-model="@Model.PageModel"></div>
     </div>
 </div>
 

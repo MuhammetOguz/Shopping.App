@@ -15,7 +15,7 @@ namespace Shopping.UI.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            return View(new CategoryListViewModel() { Categories=_categoryService.GetAll()});
+            return View(new CategoryListViewModel() {SelectedCategory=RouteData.Values["category"]?.ToString(), Categories=_categoryService.GetAll()});
         }
     }
 }

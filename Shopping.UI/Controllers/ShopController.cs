@@ -19,9 +19,10 @@ namespace Shopping.UI.Controllers
         }
 
         [Route("products/{category?}")]
-        public IActionResult List(string category)
+        public IActionResult List(string category,int page=1)
         {
-            return View(new ProductListModel() { Products = _productService.GetProductByCategory(category) });
+            const int pageSize = 3;
+            return View(new ProductListModel() { PageModel=new PageInfo() {TotalItems=_productService.GetCountByCategory(category),CurrentPage=page,ItemsPerPage=pageSize,CurrentCategory=category }, Products = _productService.GetProductByCategory(category,page,pageSize) });
         }
 
         public IActionResult Details(int? id)

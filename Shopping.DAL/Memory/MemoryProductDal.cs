@@ -52,6 +52,11 @@ namespace Shopping.DAL.Memory
             throw new NotImplementedException();
         }
 
+        public List<Product> GetProductByCategory(string category, int page, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
         public Product GetProductDetails(int id)
         {
             throw new NotImplementedException();
