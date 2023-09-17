@@ -33,9 +33,14 @@ namespace Shopping.BLL.Concrete
             return _categoryDal.GetAll().ToList();
         }
 
+        public Category GetById(int id)
+        {
+            return _categoryDal.GetByID(id);
+        }
+
         public void Update(Category entity)
         {
-            throw new NotImplementedException();
+           _categoryDal.Update(entity);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Shopping.UI.Models
 {
     public class ProductModel
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Lütfen ürün adı giriniz")]
         public string Name { get; set; }
 

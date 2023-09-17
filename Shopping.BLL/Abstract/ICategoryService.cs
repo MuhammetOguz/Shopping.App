@@ -10,6 +10,8 @@ namespace Shopping.BLL.Abstract
     public interface ICategoryService
     {
         List<Category> GetAll();
+        Category GetById(int id);
+        Category GetByIdWithProducts();
         void Create(Category entity);
         void Update(Category entity);
         void Delete(Category entity);

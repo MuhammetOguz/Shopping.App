@@ -23,23 +23,43 @@ namespace Shopping.DAL.Concrete.EFCore
 
         }
 
-        public List<Product> GetProductByCategory(string category, int page,int pageSize)
+        public List<Product> GetProductByCategory(string category, int page, int pageSize)
         {
-            using (var context = new ShopContext()) { var products = context.Products.Include("Images").AsQueryable(); if (!string.IsNullOrEmpty(category))
+            using (var context = new ShopContext())
+            {
+                var products = context.Products.Include("Images").AsQueryable(); if (!string.IsNullOrEmpty(category))
                 {
                     products = products.Include(i => i.ProductCategories).ThenInclude(i => i.Category).Where(i => i.ProductCategories.Any(a => a.Category.Name.ToLower() == category.ToLower()));
                 }
-                return products.Skip((page-1)*pageSize).Take(pageSize).ToList();
+                return products.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }
 
         }
 
         public Product GetProductDetails(int id)
         {
-           using (var context = new ShopContext())
+            using (var context = new ShopContext())
             {
                 return context.Products.Where(i => i.Id == id).Include("Images").Include(i => i.ProductCategories).ThenInclude(i => i.Category).FirstOrDefault();
             }
+        }
+
+        public override void Update(Product entity)
+        {
+            using (var context = new ShopContext())
+            {
+                context.Images.RemoveRange(context.Images.Where(i => i.ProductId == entity.Id).ToList());
+
+                var product=context.Products.Where(i=> i.Id==entity.Id).FirstOrDefault();
+
+                product.Description = entity.Description;
+                product.Name = entity.Name;
+                product.Price = entity.Price;
+                product.Images=entity.Images;
+
+                context.SaveChanges();
+            }
+    
         }
     }
 }

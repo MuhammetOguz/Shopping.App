@@ -12,7 +12,7 @@
         </div>
 
         <div class="row">
-            @for(var i=0; i<2; i++)
+            @for(var i=0; i<Model.Product.Images.Count; i++)
             {
                 <div class="col-md-3  product-small-img">
                     <img src="~/img/@Model.Product.Images[i].ImageUrl" alt="@Model.Product.Name" class="img-fluid" style="display:block" onclick=myFunction(this) />
