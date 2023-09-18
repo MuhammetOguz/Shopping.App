@@ -11,10 +11,10 @@ namespace Shopping.BLL.Abstract
     {
         List<Category> GetAll();
         Category GetById(int id);
-        Category GetByIdWithProducts();
+        Category GetByIdWithProducts(int id);
         void Create(Category entity);
         void Update(Category entity);
         void Delete(Category entity);
-       
+        void DeleteFromCategory(int categoryId, int productId);
     }
 }

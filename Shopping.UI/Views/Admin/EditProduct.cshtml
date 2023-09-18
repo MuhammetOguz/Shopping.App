@@ -5,12 +5,12 @@
 
 <h1>EditProduct</h1>
 <hr />
+<form asp-controller="Admin" asp-action="EditProduct" method="post" enctype="multipart/form-data">
+    <div class="row ">
+        <div class="col-md-8">
 
-<div class="row ">
-    <div class="col-md-8 offset-2">
-        <form asp-controller="Admin" asp-action="EditProduct" method="post" enctype="multipart/form-data">
-            <input type="hidden"  name="Id" value="@Model.Id" />
-             <div class="mb-3 form-group-row">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="mb-3 form-group-row">
                 <label class="col-md-2 col-form-label">Product Name</label>
                 <div class="col-md-10">
                     <input type="text" name="Name" value="@Model.Name" class="form-control" />
@@ -45,5 +45,20 @@
                     <input type="submit" name="name" value="Update Product" class="btn btn-primary" />
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+        <div class="col-md-4" offset-2>
+            @foreach(var item in (List<Category>)ViewBag.Categories)
+            {
+                <div class="form-check">
+                    <input class="form-check-input"
+                    name="categoryIds"
+                    type="checkbox"
+                    value="@item.Id"
+                    id="category@(item.Id)" @(Model.SelectedCategories.Any(i=>i.Id==item.Id)?"checked":"")>
+                    <label class="form-check-label" for="category@(item.Id)">@item.Name </label>
+                 
+                </div>
+            }
+        </div>
+        </div>
+</form>

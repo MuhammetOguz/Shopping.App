@@ -12,5 +12,7 @@ namespace Shopping.DAL.Abstract
     {
         Product GetProductDetails(int id);
         List<Product> GetProductByCategory(string category, int page, int pageSize);
+        Product GetByIdWithCategories(int id);
+        void Update(Product entity, int[] categoryIds);
     }
 }

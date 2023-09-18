@@ -41,6 +41,11 @@ namespace Shopping.BLL.Concrete
             return _productDal.GetByID(id);
         }
 
+        public Product GetByIdWithCategories(int id)
+        {
+            return _productDal.GetByIdWithCategories(id);
+        }
+
         public int GetCountByCategory(string category)
         {
             using (var context = new ShopContext())
@@ -66,6 +71,11 @@ namespace Shopping.BLL.Concrete
         public void Update(Product entity)
         {
            _productDal.Update(entity);
+        }
+
+        public void Update(Product entity, int[] categoryIds)
+        {
+            _productDal.Update(entity, categoryIds);
         }
     }
 }

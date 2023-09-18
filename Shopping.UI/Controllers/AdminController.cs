@@ -53,9 +53,12 @@ namespace Shopping.UI.Controllers
             return RedirectToAction("ProductList");
         }
 
-        public IActionResult EditProduct(int id)
+        public IActionResult EditProduct(int? id)
         {
-            var model = _productService.GetProductDetails(id);
+            if (id == null) return NotFound();
+            var model = _productService.GetByIdWithCategories(id.Value);
+
+            ViewBag.Categories = _categoryService.GetAll();
 
             return View(new ProductModel()
             {
@@ -63,12 +66,13 @@ namespace Shopping.UI.Controllers
                 Name = model.Name,
                 Images = model.Images,
                 Description = model.Description,
-                Price = model.Price
+                Price = model.Price,
+                SelectedCategories=model.ProductCategories.Select(i=>i.Category).ToList(),
             });
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProduct(ProductModel model, List<IFormFile> files)
+        public async Task<IActionResult> EditProduct(ProductModel model, List<IFormFile> files, int[] categoryIds)
         {
             var entity = _productService.GetById(model.Id);
             if (entity == null)
@@ -95,7 +99,7 @@ namespace Shopping.UI.Controllers
                     }
                 }
 
-                _productService.Update(entity);
+                _productService.Update(entity,categoryIds);
                 return RedirectToAction("ProductList");
             }
 
@@ -145,11 +149,12 @@ namespace Shopping.UI.Controllers
 
         public IActionResult EditCategory(int id)
         {
-            var category = _categoryService.GetById(id);
+            var category = _categoryService.GetByIdWithProducts(id);
             return View(new CategoryModel()
             {
                 Name = category.Name,
-                Id = category.Id
+                Id = category.Id,
+                Products = category.ProductCategories.Select(i => i.Product).ToList(),
             });
 
         }
@@ -184,6 +189,14 @@ namespace Shopping.UI.Controllers
 
             return RedirectToAction("CategoryList");
 
+        }
+
+        [HttpPost]
+
+        public IActionResult DeleteFromCategory(int categoryId,int productId)
+        {
+            _categoryService.DeleteFromCategory(categoryId, productId);
+            return RedirectToAction("admin/categories/" + categoryId);
         }
     }
 }

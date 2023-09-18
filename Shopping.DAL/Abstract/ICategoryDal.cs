@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Shopping.DAL.Abstract
 {
-    public interface ICategoryDal:IRepository<Category>
+    public interface ICategoryDal : IRepository<Category>
     {
-       
-
+        void DeleteFromCategory(int categoryId, int productId);
+        Category GetByIdWithProducts(int id);
     }
 }

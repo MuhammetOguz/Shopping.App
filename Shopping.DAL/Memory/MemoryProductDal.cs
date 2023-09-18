@@ -37,6 +37,11 @@ namespace Shopping.DAL.Memory
             throw new NotImplementedException();
         }
 
+        public Product GetByIdWithCategories(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Product GetOne(Expression<Func<Product, bool>> filter)
         {
             throw new NotImplementedException();
@@ -63,6 +68,11 @@ namespace Shopping.DAL.Memory
         }
 
         public void Update(Product entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Product entity, int[] categoryIds)
         {
             throw new NotImplementedException();
         }

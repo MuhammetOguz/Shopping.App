@@ -23,6 +23,17 @@ namespace Shopping.DAL.Concrete.EFCore
 
         }
 
+        public Product GetByIdWithCategories(int id)
+        {
+           using(var context = new ShopContext())
+            {
+                return context.Products.Where(i => i.Id == id)
+                    .Include(i => i.ProductCategories)
+                    .ThenInclude(i => i.Category)
+                    .FirstOrDefault();
+            }
+        }
+
         public List<Product> GetProductByCategory(string category, int page, int pageSize)
         {
             using (var context = new ShopContext())
@@ -60,6 +71,34 @@ namespace Shopping.DAL.Concrete.EFCore
                 context.SaveChanges();
             }
     
+        }
+
+        public void Update(Product entity, int[] categoryIds)
+        {
+            using (var context = new ShopContext())
+            {
+                var product = context.Products
+                    .Include(i => i.ProductCategories)
+                    .ThenInclude(i => i.Category)
+                    .FirstOrDefault();
+
+                if(product != null)
+                {
+                    context.Images.RemoveRange(context.Images.Where(i => i.ProductId == entity.Id).ToList());
+
+                    product.Description = entity.Description;
+                    product.Name = entity.Name;
+                    product.Price = entity.Price;
+                    product.Images = entity.Images;
+                    product.ProductCategories = categoryIds.Select(catid => new ProductCategory()
+                    {
+                        ProductId = entity.Id,
+                        CategoryId = catid,
+                    }).ToList();
+
+                    context.SaveChanges();
+                }
+            }
         }
     }
 }

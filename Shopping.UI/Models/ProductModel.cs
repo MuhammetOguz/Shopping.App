@@ -16,6 +16,8 @@ namespace Shopping.UI.Models
 
         [Required(ErrorMessage = "Lütfen fiyat bilgisi giriniz")]
         public decimal Price { get; set; }
-     
+
+        public List<Category> SelectedCategories { get; set; }
+
     }
 }
