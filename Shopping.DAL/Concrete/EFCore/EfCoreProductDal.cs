@@ -30,6 +30,7 @@ namespace Shopping.DAL.Concrete.EFCore
                 return context.Products.Where(i => i.Id == id)
                     .Include(i => i.ProductCategories)
                     .ThenInclude(i => i.Category)
+                    .Include(i=> i.Images)
                     .FirstOrDefault();
             }
         }

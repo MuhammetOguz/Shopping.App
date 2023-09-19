@@ -5,7 +5,16 @@
 
 <h1>CreateProduct</h1>
 <hr />
+<script>
+    $(document).ready(function)(){
+    
+        $("fileImage").change(function(e)){
+            $("previewImage").show()
+            $("previewImage").attr('src'),URL.createObjectURL(e.target.files[0]));
+        })
+    })
 
+</script>
    <div class="row ">
     <div class="col-md-8 offset-2">
         <form asp-controller="Admin" asp-action="CreateProduct" method="post" enctype="multipart/form-data">
@@ -19,7 +28,8 @@
             <div class="mb-3 form-group-row">
                 <label asp-for="Images" class="col-md-2 col-form-label"></label>
                 <div class="col-md-10">
-                    <input type="file" name="files"  class="form-control" multiple />
+                    <img src="" width="80" id="previewImage" />
+                    <input type="file" name="files" class="form-control" multiple id="fileImage" />
                     
                 </div>
             </div>

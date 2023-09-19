@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shopping.BLL.Abstract;
 using Shopping.ENTITY;
 using Shopping.UI.Models;
 
 namespace Shopping.UI.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private IProductService _productService;
@@ -31,6 +33,10 @@ namespace Shopping.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductModel model, List<IFormFile> files)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             var entity = new Product() { Name = model.Name, Description = model.Description, Price = model.Price };
 
             if (files != null)
@@ -74,6 +80,14 @@ namespace Shopping.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> EditProduct(ProductModel model, List<IFormFile> files, int[] categoryIds)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Categories = _categoryService.GetAll();
+                var m = _productService.GetByIdWithCategories(model.Id);
+                model.Images = m.Images;
+                model.SelectedCategories = m.ProductCategories.Select(i => i.Category).ToList();
+                return View(model);
+            }
             var entity = _productService.GetById(model.Id);
             if (entity == null)
             {

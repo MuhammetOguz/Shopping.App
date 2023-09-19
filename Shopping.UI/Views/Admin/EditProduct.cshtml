@@ -5,11 +5,25 @@
 
 <h1>EditProduct</h1>
 <hr />
+<script> 
+ $(document).ready(function)(){
+
+        $("fileImage").change(function(e)){
+            $("imgPreview").show()
+            $("imgPreview").attr('src'),URL.createObjectURL(e.target.files[0]));
+        })
+    })
+</script>
+<script src="~/modules/ckeditor/ckeditor.js"></script>
+
+
+
 <form asp-controller="Admin" asp-action="EditProduct" method="post" enctype="multipart/form-data">
     <div class="row ">
         <div class="col-md-8">
-
+            <input type="hidden" name="SelectedCategories" value="@Model.SelectedCategories" />
             <input type="hidden" name="Id" value="@Model.Id" />
+
             <div class="mb-3 form-group-row">
                 <label class="col-md-2 col-form-label">Product Name</label>
                 <div class="col-md-10">
@@ -62,3 +76,4 @@
         </div>
         </div>
 </form>
+<script>CKEDITOR.replace("editor")</script>
