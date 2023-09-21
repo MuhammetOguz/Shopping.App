@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Shopping.UI.EmailServices;
 using Shopping.UI.Identity;
 using Shopping.UI.Models;
+using System.ComponentModel.Design;
 
 namespace Shopping.UI.Controllers
 {
@@ -41,14 +43,20 @@ namespace Shopping.UI.Controllers
 
             if (result.Succeeded)
             {
-                var code=await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callback = Url.Action("ConfirmEmail", "Account", new
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new
                 {
 
                     userId = user.Id,
                     token = code
 
                 });
+
+                //string siteUrl = "https://localhost:7026/";
+                //string activeUrl = $"{siteUrl}{callbackUrl}";
+
+                //string body = $"Merhaba {model.Username};<br><br>Hesabınızı onaylamak için <a href='{activeUrl}' target='_blank'> tıklayınız</a>";
+                //MailHelper.SendEmail(body, model.Email, "Hesap Aktifleştirme");
 
                 return RedirectToAction("Login");
             }
@@ -71,7 +79,7 @@ namespace Shopping.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {
-
+            ModelState.Remove("ReturnUrl");
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -85,11 +93,11 @@ namespace Shopping.UI.Controllers
                 return View(model);
             }
 
-            if (!await _userManager.IsEmailConfirmedAsync(user))
-            {
-                ModelState.AddModelError("", "Lütfen Hesabınızı Email ile onaylayınız");
-                return View(model);
-            }
+            //if (!await _userManager.IsEmailConfirmedAsync(user))
+            //{
+            //    ModelState.AddModelError("", "Lütfen Hesabınızı Email ile onaylayınız");
+            //    return View(model);
+            //}
 
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, true);
 
@@ -109,27 +117,90 @@ namespace Shopping.UI.Controllers
             return Redirect("~/");
         }
 
-        public async Task<IActionResult> ConfirmEmail(string userId,string token)
-        {
-            if (userId == null || token == null)
-            {
-                TempData["message"] = "Geçersiz Token";
-                return View();
-            }
+        //public async Task<IActionResult> ConfirmEmail(string userId,string token)
+        //{
+        //    if (userId == null || token == null)
+        //    {
+        //        TempData["message"] = "Geçersiz Token";
+        //        return View();
+        //    }
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                var result = await _userManager.ConfirmEmailAsync(user, token);
-                if(result.Succeeded)
-                {
-                    TempData["message"] = "Hesap Onaylandı";
+        //    var user = await _userManager.FindByIdAsync(userId);
+        //    if (user != null)
+        //    {
+        //        var result = await _userManager.ConfirmEmailAsync(user, token);
+        //        if(result.Succeeded)
+        //        {
+        //            TempData["message"] = "Hesap Onaylandı";
 
-                    return View();
-                }
-            }
-            TempData["message"] = "Hesap Onaylanmadı";
-            return View();
-        }
+        //            return View();
+        //        }
+        //    }
+        //    TempData["message"] = "Hesap Onaylanmadı";
+        //    return View();
+        //}
+
+        //    [HttpPost]
+        //    public async Task<IActionResult> ForgotPassword(string Email)
+        //    {
+        //        if (string.IsNullOrEmpty(Email))
+        //        {
+        //            return View();
+        //        }
+
+        //        var user = await _userManager.FindByEmailAsync(Email);
+
+        //        if (user == null) { return View(); }
+
+        //        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+        //        var callbackUrl = Url.Action("ResetPassword", "Account", new
+        //        {
+        //            token = code
+
+        //        });
+        //        //Send Email
+        //        string siteUrl = "https://localhost:7026";
+        //        string activeUrl = $"{siteUrl}{callbackUrl}";
+
+        //        string body = $"Parolanızı yenilemek için <a href='{activeUrl}' target='_blank'> tıklayınız</a>";
+        //        MailHelper.SendEmail(body, Email, "ShopApp Şifre Resetleme");
+        //        return RedirectToAction("Login", "Account");
+        //    }
+
+        //    public IActionResult ResetPassword(string token)
+        //    {
+        //        if (token == null)
+        //        {
+        //            return RedirectToAction("Index", "Home");
+        //        }
+
+        //        var model = new ResetPasswordModel() { Token = token };
+        //        return View(model);
+        //    }
+
+        //[HttpPost]
+        //public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    var user = await _userManager.FindByEmailAsync(model.Email);
+        //    if (user == null) { return RedirectToAction("Index", "Home"); }
+
+        //    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+        //    if (result.Succeeded)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
+        //    return View(model);
+        //}
+
+        //public IActionResult AccessDenied()
+        //{
+        //    return View();
+        //}
     }
 }
+

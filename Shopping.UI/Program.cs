@@ -16,6 +16,9 @@ builder.Services.AddDbContext<ApplicationIdentityDbContext>(options => options.U
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationIdentityDbContext>().AddDefaultTokenProviders();
 
+//var userManager=builder.Services.BuildServiceProvider().GetService<UserManager<ApplicationUser>>();
+//var roleManager=builder.Services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     //password
@@ -35,7 +38,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
     //SignIn
     options.SignIn.RequireConfirmedPhoneNumber = false;
-    options.SignIn.RequireConfirmedEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
 
 });
 
@@ -101,5 +104,8 @@ app.UseEndpoints(endpoints =>
 
     endpoints.MapControllerRoute(name: "admincategories", pattern: "admin/categories/{id?}", defaults: new { controller = "Admin", action = "EditCategory" });
 });
+
+//SeedIdentity.Seed(userManager, roleManager, app.Configuration).Wait();
+
 
 app.Run();
